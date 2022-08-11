@@ -1,0 +1,108 @@
+body{
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-color: brown;
+    height: 100vh;
+    align-items: center;
+}
+.calendar-container{
+    background-color: chocolate;
+    width: 300px;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+.month-name{
+    margin: 0;
+    background-color: brown;
+    color: white;
+    padding: 10px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.day-name{
+    font-size: 20px;
+    color: darkgray;
+}
+
+.day-number{
+    font-size: 80px;
+    margin: 0;
+    font-weight: bold;
+}
+.year{
+    margin: 20px 0;
+    font-size: 20px;
+    color: darkgray;
+    font-weight: 500;
+}
+
+.form{
+    text-align: center;
+    top: 30%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    width: 400px;
+    background-color: chocolate;
+    border-radius: 10px;
+}
+
+.input{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 10px 10px 0 0;
+    border: none;
+    font-size: 20px;
+    font-family: cursive;
+}
+.input::placeholder{
+    color: lightgray;
+}
+
+.list{
+   padding: 0;
+    margin: 0;
+}
+.list li{
+    list-style-type: none;
+    padding: 20px;
+    border-top: dotted;
+    border-color: darkblue;
+    position: relative;
+}
+
+
+
+.list li .fa.trash{
+    color: red;
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translate(-50%);
+    cursor: pointer;
+}
+.list li .fa-check-circle{
+    color: red;
+    position: absolute;
+    right: 40px;
+    top: 50px;
+    transform: translate(-50%);
+    cursor: pointer;
+}
+.list li .li.checked{
+    color: #012054;
+    text-decoration: #14142d;
+}
+.list li .fa-check-circle{
+    color: #ffffff;
+    text-decoration: line-through;
+}
+
+
+.list li.checked .fa-check-circle{
+    color: lightgray;
+}
