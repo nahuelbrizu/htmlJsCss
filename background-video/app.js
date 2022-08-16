@@ -21,50 +21,88 @@ const amPm = document.getElementById("ampm");
 ///img//
 const next = document.querySelector(".next");
 const prev = document.querySelector(".prev");
-const img = document.querySelectorAll("img");
 const imgContainer = document.querySelector(".image-container");
+const img = imgContainer.querySelectorAll("img");
 
 
+
+const containerText = document.querySelector(".container-text");
+const careers = ["Nahuelito", "soccer player", "good friend", "Web Developer", "Freelancer"];
+let  careerIndex = 0;
+let characterIndex = 0;
+
+updateText();
+
+function updateText(){
+   characterIndex++;
+   containerText.innerHTML = `
+   <h1>
+   I am ${careers[careerIndex].slice(0, careers.length) === "I" ? "an" : "a"}
+   ${careers[careerIndex].slice(0, characterIndex)}
+   </h1>
+   `;
+   if (characterIndex === careers[careerIndex].length){
+       careerIndex++;
+       characterIndex = 0;
+   }
+   if (careerIndex === careers.length){
+       careerIndex = 0;
+   }
+   setTimeout(updateText, 400);
+}
 
 
 let currentImg = 0;
 let interval;
 let scrollDirection = true;
 
+
 next.addEventListener("click", () => {
+    console.log(currentImg);
     clearInterval(interval);
-    updateImg(true);
-    scrollDirection = true;
+    if (currentImg >= img.length - 1){
+       scrollDirection = false;
+    } else {
+        updateImg(true);
+        scrollDirection = true;
+    }
     interval = setInterval(() => {
         updateImg(scrollDirection);
     }, 3000);
 });
 
 prev.addEventListener("click", () => {
+    console.log(currentImg);
+    console.log(interval);
     clearInterval(interval);
-    updateImg(false);
-    scrollDirection = false;
+    if (currentImg <= img.length -1){
+        updateImg(false);
+    } else {
+        scrollDirection = false;
+    }
     interval = setInterval(() => {
         updateImg(scrollDirection);
     }, 3000);
+    console.log(currentImg);
+
 });
 interval = setInterval(() => {
     updateImg(scrollDirection);
-}, 3000);
-
+}, 2000);
 
 function updateImg(goingRight) {
     if (goingRight) {
         currentImg++;
-    } else {
+    }
+    if (!goingRight) {
         currentImg--;
     }
-    if (currentImg >= img.length && goingRight) {
+    if (currentImg >= img.length - 1 && goingRight) {
         scrollDirection = false;
     } else if (currentImg <= 0 && !goingRight) {
         scrollDirection = true;
     }
-    imgContainer.style.transform = ` translateX(-${(currentImg -1 ) * 500}px) `;
+    imgContainer.style.transform = ` translateX(-${(currentImg) * 500}px)`;
 }
 
 
@@ -100,7 +138,7 @@ updateClock()
 window.addEventListener("scroll", () => {
     if (
         window.scrollY >
-        bottomContainer.offsetTop - navbar.offsetHeight - 50
+        bottomContainer - navbar.offsetHeight - 50
     ) {
         navbar.classList.add("active");
     } else {
@@ -165,51 +203,105 @@ days.innerHTML = addDays;
 
 
 
-/////tabs-text
-
-// tabs-content
 const tabs = document.querySelector(".tabs");
-const buttons = document.querySelector(".button");
-const articles = document.querySelector(".text-content");
+const articles = document.querySelectorAll(".content");
+const buttons = document.querySelectorAll(".button");
 
-tabs.addEventListener("click", (e) => {
+tabs.addEventListener("click", function (e) {
     const id = e.target.dataset.id;
-    if (id){
-        //remove selected from ohter buttons
-        buttons.forEach((btn) =>{
-            btn.classList.remove("live")
-            console.log("removve-live");
+    if (id) {
+        // remove live
+        buttons.forEach(function (btn){
+            btn.classList.remove("live");
         });
+        //Add live
         e.target.classList.add("live");
-        console.log("e")
-
-        //hide other article
-        articles.forEach((article) => {
-            article.classList.remove("live")
-            console.log("articles")
-
+        //hide other articles
+        articles.forEach(function (article) {
+            article.classList.remove("live");
         });
-        const element = document.getElementById(id)
+        const element = document.getElementById(id);
         element.classList.add("live");
-        console.log("addelement")
-
     }
 });
 
+const imgContainer2 = document.querySelector(".image-container2");
+
+const prev2 = document.getElementById("prev2");
+const next2 = document.getElementById("next2");
+let x = 0;
+let timer;
+
+prev2.addEventListener("click", () => {
+    x = x + 45;
+    clearInterval(timer);
+    updateGallery();
+});
+
+next2.addEventListener("click",  () => {
+    x = x - 45;
+    clearInterval(timer);
+    updateGallery();
+});
+
+
+function updateGallery(){
+    imgContainer2.style.transform = `perspective(1000px) rotateY(${x}deg)`;
+    timer = setTimeout(() => {
+        x = x - 45;
+        updateGallery();
+    }, 3000)
+}
+
+updateGallery();
+
+
+const root = document.documentElement;
+const chooseTheme = (color) => {
+    root.style.setProperty("--golden-glow", color)
+}
 
 
 
 
+const container = document.querySelector(".string-img-container");
+const cards = document.querySelector(".cards");
 
+/* keep track of user's mouse down and up */
+let isPressedDown = false;
+/* x horizontal space of cursor from inner container */
+let cursorXSpace;
 
+container.addEventListener("mousedown", (e) => {
+    isPressedDown = true;
+    cursorXSpace = e.offsetX - cards.offsetLeft;
+    container.style.cursor = "grabbing";
+});
 
+container.addEventListener("mouseup", () => {
+    container.style.cursor = "grab";
+});
 
+window.addEventListener("mouseup", () => {
+    isPressedDown = false;
+});
+container.addEventListener("mousemove", (e) => {
+    if (!isPressedDown) return;
+    e.preventDefault();
+    cards.style.left =`${e.offsetX - cursorXSpace}px`;
+    boundCards();
+});
+/* que mierda es esto?   =) */
+function boundCards() {
+    const container_rect = container.getBoundingClientRect();
+    const cards_rect = cards.getBoundingClientRect();
 
-
-
-
-
-
+    if (parseInt(cards.style.left) > 0) {
+        cards.style.left = 0;
+    } else  if (cards_rect.right < container_rect.right) {
+        cards.style.left = `-${cards_rect.width - container_rect.width}px`;
+    }
+}
 
 
 
